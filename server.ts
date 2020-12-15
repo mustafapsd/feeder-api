@@ -1,10 +1,10 @@
 
 import dayjs = require('dayjs');
 import * as express from 'express';
-import * as http from 'http';
 import * as WebSocket from 'ws';
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 var today: Date = new Date();
 var container: number = 0;
 var stock: number = 0;
@@ -15,7 +15,7 @@ var machine = {
 }
 
 //initialize a simple http server
-const server = http.createServer(app);
+const server = express().listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const wss = new WebSocket.Server({ server });
 
@@ -42,9 +42,4 @@ wss.on('connection', (ws: WebSocket) => {
     }, 500)
 
     ws.send(JSON.stringify(machine));
-});
-
-//start our server
-server.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${server.address()?.toString} :)`);
 });
