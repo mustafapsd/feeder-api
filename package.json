@@ -13,6 +13,7 @@
     "dayjs": "^1.9.7",
     "debug": "~2.6.9",
     "express": "^4.16.4",
+    "express-ws": "^4.0.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.6",

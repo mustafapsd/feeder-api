@@ -2,14 +2,16 @@
 exports.__esModule = true;
 var dayjs = require("dayjs");
 var express = require("express");
-var WebSocket = require("ws");
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 var PORT = process.env.PORT || 3000;
 var today = new Date();
 var container = 0;
 var stock = 0;
 var add = false;
-var willad = 0;
+var willadd = 0;
 var machine = {
     container: container,
     stock: stock,
@@ -17,26 +19,20 @@ var machine = {
     add: add,
     willadd: 0
 };
-//initialize a simple http serve
-var server = express().listen(PORT, function () { return console.log("Listening on " + PORT); });
-var wss = new WebSocket.Server({ server: server });
-wss.on('connection', function (ws) {
-    //connection is up, let's add a simple simple even
-    ws.on('message', function (data) {
-        console.log(JSON.parse(data));
-        today = new Date();
-        data = JSON.parse(data);
-        container = Number(data.container);
-        stock = Number(data.stock);
-        add = Boolean(data.add);
-        willad = Number(data.willadd);
-        machine = { container: container, stock: stock, lasttime: dayjs(today).format('DD/MM/YYYY HH:mm'), add: add, willadd: willad };
-        ws.send(JSON.stringify(machine));
-        // wss.clients.forEach(client => {
-        //     if (ws != client) {
-        //         client.send(JSON.stringify(machine))
-        //     }
-        // })
-    });
-    ws.send(JSON.stringify(machine));
+app.get("/stock", function (req, resp, err) {
+    resp.status(200).send(JSON.stringify(machine));
 });
+
+
+app.post("/refresh", function (req, resp) {
+    machine.container = req.body.container
+    machine.stock = req.body.stock
+    machine.add = req.body.add
+    machine.willadd = req.body.willadd
+    machine.lasttime = dayjs(new Date()).format('DD/MM/YYYY HH:mm'),
+
+
+    resp.status(200).send(machine);
+});
+
+app.listen(3000, function () { return console.log("App is running"); });
