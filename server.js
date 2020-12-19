@@ -6,7 +6,9 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 var PORT = process.env.PORT || 3000;
+
 var today = new Date();
 var container = 0;
 var stock = 0;
@@ -35,4 +37,4 @@ app.post("/refresh", function (req, resp) {
     resp.status(200).send(machine);
 });
 
-app.listen(3000, function () { return console.log("App is running"); });
+app.listen(PORT, function () { return console.log("App is running"); });
