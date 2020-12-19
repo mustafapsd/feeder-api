@@ -32,11 +32,11 @@ wss.on('connection', function (ws) {
         willad = Number(data.willadd);
         machine = { container: container, stock: stock, lasttime: dayjs(today).format('DD/MM/YYYY HH:mm'), add: add, willadd: willad };
         ws.send(JSON.stringify(machine));
-        wss.clients.forEach(function (client) {
-            if (ws != client) {
-                client.send(JSON.stringify(machine));
-            }
-        });
+        // wss.clients.forEach(client => {
+        //     if (ws != client) {
+        //         client.send(JSON.stringify(machine))
+        //     }
+        // })
     });
     ws.send(JSON.stringify(machine));
 });

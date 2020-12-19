@@ -43,13 +43,13 @@ wss.on('connection', (ws: WebSocket) => {
 
         ws.send(JSON.stringify(machine));
 
-        wss.clients.forEach(client => {
+        // wss.clients.forEach(client => {
 
-            if (ws != client) {
-                client.send(JSON.stringify(machine))
-            }
+        //     if (ws != client) {
+        //         client.send(JSON.stringify(machine))
+        //     }
 
-        })
+        // })
     });
 
     ws.send(JSON.stringify(machine));
