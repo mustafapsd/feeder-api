@@ -33,7 +33,9 @@ wss.on('connection', function (ws) {
         machine = { container: container, stock: stock, lasttime: dayjs(today).format('DD/MM/YYYY HH:mm'), add: add, willadd: willad };
         ws.send(JSON.stringify(machine));
         wss.clients.forEach(function (client) {
-            client.send(JSON.stringify(machine));
+            if (ws != client) {
+                client.send(JSON.stringify(machine));
+            }
         });
     });
     ws.send(JSON.stringify(machine));

@@ -44,7 +44,11 @@ wss.on('connection', (ws: WebSocket) => {
         ws.send(JSON.stringify(machine));
 
         wss.clients.forEach(client => {
-            client.send(JSON.stringify(machine))
+
+            if (ws != client) {
+                client.send(JSON.stringify(machine))
+            }
+
         })
     });
 
